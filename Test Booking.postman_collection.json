@@ -1,0 +1,315 @@
+{
+	"info": {
+		"_postman_id": "d463d14e-adf5-42d3-8070-384627b4737e",
+		"name": "Test Booking",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20219313"
+	},
+	"item": [
+		{
+			"name": "Booking Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Post booking request succeed\", function () {\r",
+							"    // Save returned booking id\r",
+							"    let postBookingRequest = pm.response.json();\r",
+							"    pm.environment.set(\"bookingID\", postBookingRequest.bookingid);\r",
+							"\r",
+							"    // Test returned response\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": \"Mahmoud\",     //Firstname for the guest who made the booking <String>\r\n    \"lastname\": \"Gamal\",        //Lastname for the guest who made the booking <String>\r\n    \"totalprice\": 1500,           //The total price for the booking <int>\r\n    \"depositpaid\": true,          //Whether the deposit has been paid or not <boolean>\r\n    \"bookingdates\": {\r\n        \"checkin\": \"2023-10-07\",          //Date the guest is checking in <Date>\r\n        \"checkout\": \"2024-10-06\"          //Date the guest is checking out <Date>\r\n    } //Sub-object that contains the checkin and checkout dates\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/booking",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"booking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "All Booking IDs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"All IDs retrieved successfully\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseURL}}/booking",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"booking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Booking ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"ID retrieved successfully\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Firstname check succeed\", function(){\r",
+							"    let retrievedResponse = pm.response.json();\r",
+							"    pm.expect(retrievedResponse.firstname).to.eql(\"Mahmoud\");    \r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": "Sets what format the response body is returned in. Can be application/json or\napplication/xml",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BaseURL}}/booking/:id",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"booking",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{bookingID}}",
+							"description": "The id of the booking you would like to retrieve"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authentication Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Token recieved\", function () {\r",
+							"    let retrievedResponse = pm.response.json();\r",
+							"    \r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.expect(retrievedResponse.token.length).to.be.greaterThan(0);\r",
+							"    \r",
+							"    pm.environment.set(\"authToken\", retrievedResponse.token);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\" : \"admin\",\r\n    \"password\" : \"password123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/auth",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Booking ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"ID changed successfully\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"description": "Sets what format the response body is returned in. Can be application/json or\napplication/xml",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Cookie",
+						"value": "token={{authToken}}",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "YWRtaW46cGFzc3dvcmQxMjM=",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": \"Mohamed\",     //Firstname for the guest who made the booking <String>\r\n    \"lastname\": \"Gamal\",        //Lastname for the guest who made the booking <String>\r\n    \"totalprice\": 1500,           //The total price for the booking <int>\r\n    \"depositpaid\": true,          //Whether the deposit has been paid or not <boolean>\r\n    \"bookingdates\": {\r\n        \"checkin\": \"2023-10-07\",          //Date the guest is checking in <Date>\r\n        \"checkout\": \"2024-10-06\"          //Date the guest is checking out <Date>\r\n    }, //Sub-object that contains the checkin and checkout dates\r\n    \"additionalneeds\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseURL}}/booking/:id",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"booking",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{bookingID}}",
+							"description": "The id of the booking you would like to change"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Booking ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"ID deleted successfully\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "token={{authToken}}",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "YWRtaW46cGFzc3dvcmQxMjM=",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BaseURL}}/booking/:id",
+					"host": [
+						"{{BaseURL}}"
+					],
+					"path": [
+						"booking",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{bookingID}}",
+							"description": "The id of the booking you would like to delete"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
