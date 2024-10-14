@@ -1,4 +1,4 @@
-# Test Booking API
+# Test Herokuapp Booking API
 
 This repository contains a Postman collection for testing the Booking API. The collection includes various requests to perform operations related to booking management, along with automated test cases to verify the API's functionality.
 
