@@ -77,5 +77,4 @@ This project is licensed under the MIT License.
 
 ### Output
 
-![image](https://github.com/user-attachments/assets/54f6cd90-f34e-4b40-8bea-0f8070e8716b)
-
+![apis](https://github.com/user-attachments/assets/2e539d5f-7fb0-481b-b5a9-478ccca63e37)
